@@ -3,12 +3,12 @@ package alerts;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class AlertNetworkImplementation implements AlertNetwork {
+public class AlertNetworkImpl implements AlertNetwork {
 
     private final HashMap<String, List<String>> nodes;
     private static final Double THRESHOLD = 0.7;
 
-    public AlertNetworkImplementation() {
+    public AlertNetworkImpl() {
         this.nodes = new HashMap<>();
     }
 

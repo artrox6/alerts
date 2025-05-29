@@ -10,7 +10,7 @@ class AlertNetworkShortestPathTest extends AlertTest {
     @Test
     void shouldReturnProperValueForInitialGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = List.of("A", "B", "C");
         createPDFTestGraph(alertNetwork);
 
@@ -24,7 +24,7 @@ class AlertNetworkShortestPathTest extends AlertTest {
     @Test
     void shouldReturnDifferentPathsForDisconnectedGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected1 = List.of("A", "B", "C");
         List<String> expected2 = List.of("E", "F", "H");
         List<String> expected3 = List.of("E", "F", "G");
@@ -44,7 +44,7 @@ class AlertNetworkShortestPathTest extends AlertTest {
     @Test
     void shouldReturnShortestPathIfLongerExist() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = List.of("A", "C", "F");
         createGraphWithLongerAndShorterPathToSameNode(alertNetwork);
 
@@ -58,7 +58,7 @@ class AlertNetworkShortestPathTest extends AlertTest {
     @Test
     void shouldReturnShortestPathForCircleGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = List.of("A");
         createCircleGraph(alertNetwork);
 
@@ -72,7 +72,7 @@ class AlertNetworkShortestPathTest extends AlertTest {
     @Test
     void shouldReturnEmptyListForDisconnectedGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = Collections.emptyList();
         createDisconnectedTestGraph(alertNetwork);
 
@@ -86,7 +86,7 @@ class AlertNetworkShortestPathTest extends AlertTest {
     @Test
     void shouldReturnEmptyListForEmptyGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = Collections.emptyList();
 
         //When
@@ -99,7 +99,7 @@ class AlertNetworkShortestPathTest extends AlertTest {
     @Test
     void shouldReturnEmptyListForNullSource() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = Collections.emptyList();
         createPDFTestGraph(alertNetwork);
 
@@ -113,7 +113,7 @@ class AlertNetworkShortestPathTest extends AlertTest {
     @Test
     void shouldReturnEmptyListForNullTarget() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = Collections.emptyList();
         createPDFTestGraph(alertNetwork);
 
@@ -127,7 +127,7 @@ class AlertNetworkShortestPathTest extends AlertTest {
     @Test
     void shouldReturnEmptyListForNullValues() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = Collections.emptyList();
         createPDFTestGraph(alertNetwork);
 
@@ -141,7 +141,7 @@ class AlertNetworkShortestPathTest extends AlertTest {
     @Test
     void shouldReturnEmptyListForNullTargetWithNullFilledGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = Collections.emptyList();
         createNullFilledGraph(alertNetwork);
 
@@ -155,7 +155,7 @@ class AlertNetworkShortestPathTest extends AlertTest {
     @Test
     void shouldReturnEmptyListForNullSourceWithNullFilledGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = Collections.emptyList();
         createNullFilledGraph(alertNetwork);
 
@@ -169,7 +169,7 @@ class AlertNetworkShortestPathTest extends AlertTest {
     @Test
     void shouldReturnEmptyListForNullValuesWithNullFilledGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = Collections.emptyList();
         createNullFilledGraph(alertNetwork);
 

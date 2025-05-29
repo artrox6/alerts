@@ -15,7 +15,7 @@ class AlertNetworkAffectedServicesTest extends AlertTest{
     void shouldReturnProperValueForInitialGraph() {
 
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = List.of("A", "B", "C", "D");
         createPDFTestGraph(alertNetwork);
 
@@ -30,7 +30,7 @@ class AlertNetworkAffectedServicesTest extends AlertTest{
     void shouldReturnDifferentServicesForDisconnectedGraph() {
 
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = List.of("A", "B", "C", "D");
         List<String> expected2 = List.of("E", "F", "G", "H");
         createTwoDisconnectedGraph(alertNetwork);
@@ -47,7 +47,7 @@ class AlertNetworkAffectedServicesTest extends AlertTest{
     @Test
     void shouldReturnServicesForGraphWithLongerAndShorterPath() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = List.of("A", "B", "C", "D", "E", "F");
         createGraphWithLongerAndShorterPathToSameNode(alertNetwork);
 
@@ -61,7 +61,7 @@ class AlertNetworkAffectedServicesTest extends AlertTest{
     @Test
     void shouldReturnServicesForCircleGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = List.of("A","B","C");
         createCircleGraph(alertNetwork);
 
@@ -75,7 +75,7 @@ class AlertNetworkAffectedServicesTest extends AlertTest{
     @Test
     void shouldReturnSingleServiceForSingleDisconnectedNodeGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = List.of("E");
         createDisconnectedTestGraph(alertNetwork);
 
@@ -89,7 +89,7 @@ class AlertNetworkAffectedServicesTest extends AlertTest{
     @Test
     void shouldReturnEmptyListForEmptyGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = Collections.emptyList();
 
         //When
@@ -102,7 +102,7 @@ class AlertNetworkAffectedServicesTest extends AlertTest{
     @Test
     void shouldReturnEmptyListForNullSource() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = Collections.emptyList();
         createPDFTestGraph(alertNetwork);
 
@@ -116,7 +116,7 @@ class AlertNetworkAffectedServicesTest extends AlertTest{
     @Test
     void shouldReturnEmptyListForNullTargetWithNullFilledGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         List<String> expected = Collections.emptyList();
         createNullFilledGraph(alertNetwork);
 
@@ -130,7 +130,7 @@ class AlertNetworkAffectedServicesTest extends AlertTest{
     @Test
     void shouldSuggestContainmentEdgesCircleGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         createCircleGraph(alertNetwork);
         List<String> expected = List.of("A", "B", "C");
 
@@ -144,7 +144,7 @@ class AlertNetworkAffectedServicesTest extends AlertTest{
     @Test
     void shouldSuggestContainmentEdgesCircleWithDeeperScatteredGraphGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         createCircleGraphWithDeeperScatteredGraph(alertNetwork);
         List<String> expected = IntStream.rangeClosed('A', 'I').mapToObj(Character::toString).collect(Collectors.toList());
 
@@ -158,7 +158,7 @@ class AlertNetworkAffectedServicesTest extends AlertTest{
     @Test
     void shouldSuggestContainmentEdgesWithStarGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         createStarGraph(alertNetwork);
         List<String> expected = List.of("A", "B", "C", "D", "E", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "R", "S");
 

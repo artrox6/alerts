@@ -11,7 +11,7 @@ class AlertNetworkSuggestContainmentTest extends AlertTest {
     @Test
     void shouldSuggestContainmentEdgesForDisconnectedGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         createTwoDisconnectedGraph(alertNetwork);
         List<Pair<String,String>> expected = List.of(new Pair<>("A","B"), new Pair<>("A","D"));
 
@@ -25,7 +25,7 @@ class AlertNetworkSuggestContainmentTest extends AlertTest {
     @Test
     void shouldSuggestContainmentEdgesCircleGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         createCircleGraph(alertNetwork);
         Pair<String,String> expected = new Pair<>("A","B");
 
@@ -39,7 +39,7 @@ class AlertNetworkSuggestContainmentTest extends AlertTest {
     @Test
     void shouldSuggestContainmentEdgesCircleWithDeeperScatteredGraphGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         createCircleGraphWithDeeperScatteredGraph(alertNetwork);
         Pair<String,String> expected = new Pair<>("A","B");
 
@@ -53,7 +53,7 @@ class AlertNetworkSuggestContainmentTest extends AlertTest {
     @Test
     void shouldSuggestContainmentEdgesWithStarGraph() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         createStarGraph(alertNetwork);
         List<Pair<String,String>> expected = List.of(new Pair<>("A","B"), new Pair<>("A","C"), new Pair<>("A","D"));
 
@@ -67,7 +67,7 @@ class AlertNetworkSuggestContainmentTest extends AlertTest {
     @Test
     void shouldSuggestContainmentEdgesWithAcyclicGraphAtRoot() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         createAcyclicGraphAtRoot(alertNetwork);
         Pair<String,String> expected = new Pair<>("A","B");
 
@@ -81,7 +81,7 @@ class AlertNetworkSuggestContainmentTest extends AlertTest {
     @Test
     void shouldSuggestContainmentEdgesWithAcyclicGraphAtRootWithAroundPath() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         createAcyclicGraphAtRootWithAroundPath(alertNetwork);
         List<Pair<String,String>> expected = List.of(new Pair<>("A","D"), new Pair<>("A","E"));
 
@@ -95,7 +95,7 @@ class AlertNetworkSuggestContainmentTest extends AlertTest {
     @Test
     void shouldSuggestContainmentEdgesWithDoublePathGraphWithScatteredOneOnEnd() {
         //Given
-        AlertNetworkImplementation alertNetwork = new AlertNetworkImplementation();
+        AlertNetworkImpl alertNetwork = new AlertNetworkImpl();
         createDoublePathGraphWithScatteredOneOnEnd(alertNetwork);
         List<Pair<String,String>> expected = List.of(new Pair<>("A","B"), new Pair<>("A","D"));
 

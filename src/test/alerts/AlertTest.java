@@ -3,7 +3,7 @@ package alerts;
 import java.util.stream.IntStream;
 
 public abstract class AlertTest {
-    protected void createCircleGraph(AlertNetworkImplementation alertNetwork) {
+    protected void createCircleGraph(AlertNetworkImpl alertNetwork) {
         IntStream.rangeClosed('A', 'C').mapToObj(Character::toString).forEach(alertNetwork::addService);
 
         alertNetwork.addDependency("A","B");
@@ -11,7 +11,7 @@ public abstract class AlertTest {
         alertNetwork.addDependency("C","A");
     }
 
-    protected void createAcyclicGraphAtRoot(AlertNetworkImplementation alertNetwork) {
+    protected void createAcyclicGraphAtRoot(AlertNetworkImpl alertNetwork) {
         IntStream.rangeClosed('A', 'C').mapToObj(Character::toString).forEach(alertNetwork::addService);
 
         alertNetwork.addDependency("A","B");
@@ -20,7 +20,7 @@ public abstract class AlertTest {
         alertNetwork.addDependency("C","A");
     }
 
-    protected void createAcyclicGraphAtRootWithAroundPath(AlertNetworkImplementation alertNetwork) {
+    protected void createAcyclicGraphAtRootWithAroundPath(AlertNetworkImpl alertNetwork) {
         IntStream.rangeClosed('A', 'E').mapToObj(Character::toString).forEach(alertNetwork::addService);
 
         alertNetwork.addDependency("A","B");
@@ -31,7 +31,7 @@ public abstract class AlertTest {
         alertNetwork.addDependency("C","B");
     }
 
-    protected void createStarGraph(AlertNetworkImplementation alertNetwork) {
+    protected void createStarGraph(AlertNetworkImpl alertNetwork) {
         IntStream.rangeClosed('A', 'S').mapToObj(Character::toString).forEach(alertNetwork::addService); // Generates an IntStream from ASCII 'A' to 'Z'
 
         alertNetwork.addDependency("A","B");
@@ -57,7 +57,7 @@ public abstract class AlertTest {
         alertNetwork.addDependency("B","S");
     }
 
-    protected void createCircleGraphWithDeeperScatteredGraph(AlertNetworkImplementation alertNetwork) {
+    protected void createCircleGraphWithDeeperScatteredGraph(AlertNetworkImpl alertNetwork) {
         IntStream.rangeClosed('A', 'I').mapToObj(Character::toString).forEach(alertNetwork::addService);
 
         alertNetwork.addDependency("A","B");
@@ -72,7 +72,7 @@ public abstract class AlertTest {
 
     }
 
-    protected void createTwoDisconnectedGraph(AlertNetworkImplementation alertNetwork) {
+    protected void createTwoDisconnectedGraph(AlertNetworkImpl alertNetwork) {
 
         IntStream.rangeClosed('A', 'H').mapToObj(Character::toString).forEach(alertNetwork::addService);
 
@@ -85,7 +85,7 @@ public abstract class AlertTest {
         alertNetwork.addDependency("F","H");
     }
 
-    protected void createDoublePathGraphWithScatteredOneOnEnd(AlertNetworkImplementation alertNetwork) {
+    protected void createDoublePathGraphWithScatteredOneOnEnd(AlertNetworkImpl alertNetwork) {
 
         IntStream.rangeClosed('A', 'I').mapToObj(Character::toString).forEach(alertNetwork::addService);
 
@@ -100,7 +100,7 @@ public abstract class AlertTest {
         alertNetwork.addDependency("F","I");
     }
 
-    protected void createPDFTestGraph(AlertNetworkImplementation alertNetwork) {
+    protected void createPDFTestGraph(AlertNetworkImpl alertNetwork) {
         IntStream.rangeClosed('A', 'D').mapToObj(Character::toString).forEach(alertNetwork::addService);
 
         alertNetwork.addDependency("A","B");
@@ -109,7 +109,7 @@ public abstract class AlertTest {
         alertNetwork.addDependency("D","C");
     }
 
-    protected void createDisconnectedTestGraph(AlertNetworkImplementation alertNetwork) {
+    protected void createDisconnectedTestGraph(AlertNetworkImpl alertNetwork) {
         IntStream.rangeClosed('A', 'E').mapToObj(Character::toString).forEach(alertNetwork::addService);
 
         alertNetwork.addDependency("A","B");
@@ -118,7 +118,7 @@ public abstract class AlertTest {
         alertNetwork.addDependency("D","C");
     }
 
-    protected void createGraphWithLongerAndShorterPathToSameNode(AlertNetworkImplementation alertNetwork) {
+    protected void createGraphWithLongerAndShorterPathToSameNode(AlertNetworkImpl alertNetwork) {
         IntStream.rangeClosed('A', 'F').mapToObj(Character::toString).forEach(alertNetwork::addService);
 
         alertNetwork.addDependency("A","B");
@@ -130,7 +130,7 @@ public abstract class AlertTest {
         alertNetwork.addDependency("E","F");
     }
 
-    protected void createNullFilledGraph(AlertNetworkImplementation alertNetwork) {
+    protected void createNullFilledGraph(AlertNetworkImpl alertNetwork) {
         alertNetwork.addService(null);
     }
 
