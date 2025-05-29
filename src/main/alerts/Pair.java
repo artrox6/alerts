@@ -13,19 +13,6 @@ public class Pair<K extends String, V extends String> {
         this.target = target;
     }
 
-    public Pair() {
-        this.source = null;
-        this.target = null;
-    }
-
-    public K getSource() {
-        return source;
-    }
-
-    public V getTarget() {
-        return target;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -37,5 +24,13 @@ public class Pair<K extends String, V extends String> {
     @Override
     public int hashCode() {
         return Objects.hash(source, target);
+    }
+
+    @Override
+    public String toString() {
+        return "Pair{" +
+                "source='" + source + '\'' +
+                ", target='" + target + '\'' +
+                '}';
     }
 }

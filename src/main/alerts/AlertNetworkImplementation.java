@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 public class AlertNetworkImplementation implements AlertNetwork {
 
     private final HashMap<String, List<String>> nodes;
+    private static final Double THRESHOLD = 0.7;
 
     public AlertNetworkImplementation() {
         this.nodes = new HashMap<>();
@@ -28,7 +29,7 @@ public class AlertNetworkImplementation implements AlertNetwork {
 
     @Override
     public List<String> findAlertPropagationPath(String source, String target) {
-        return breadthFirstSearch(source, target, nodes);
+        return findShortestPath(source, target, nodes);
     }
 
     @Override
@@ -38,9 +39,10 @@ public class AlertNetworkImplementation implements AlertNetwork {
 
     @Override
     public List<Pair<String, String>> suggestContainmentEdges(String source) {
-        return suggestEdgesSimpleApproach(source, nodes);
+        return suggestEdgesToCut(source, nodes);
     }
-    public Map<String, String> breadthFirst(String source, Map<String, List<String>> graph) {
+
+    private Map<String, String> breadthFirstSearch(String source, Map<String, List<String>> graph) {
 
         if (!graph.containsKey(source)) {
             return Collections.emptyMap();
@@ -65,9 +67,9 @@ public class AlertNetworkImplementation implements AlertNetwork {
         return prev;
     }
 
-    public List<String> depthFirstSearch(String source, Map<String, List<String>> graph) {
+    private List<String> depthFirstSearch(String source, Map<String, List<String>> graph) {
 
-        if (!graph.containsKey(source)) {
+        if ( source == null || !graph.containsKey(source)) {
             return Collections.emptyList();
         }
 
@@ -89,7 +91,7 @@ public class AlertNetworkImplementation implements AlertNetwork {
         return new ArrayList<>(marked);
     }
 
-    public List<String> findPath(String source, String target, Map<String, String> prev) {
+    private List<String> findPath(String source, String target, Map<String, String> prev) {
         String current = target;
         List<String> path = new LinkedList<>();
 
@@ -103,42 +105,72 @@ public class AlertNetworkImplementation implements AlertNetwork {
         return path;
     }
 
-    public List<String> breadthFirstSearch(String source, String target, Map<String, List<String>> graph) {
+    private List<String> findShortestPath(String source, String target, Map<String, List<String>> graph) {
         if (!graph.containsKey(source) || !graph.containsKey(target)) {
             return Collections.emptyList();
         }
-        Map<String,String> prev = breadthFirst(source, graph);
+        Map<String,String> prev = breadthFirstSearch(source, graph);
         return findPath(source, target, prev);
     }
 
-    public List<Pair<String, String>> suggestEdgesSimpleApproach(String source, Map<String, List<String>> graph) {
+    private List<Pair<String, String>> suggestEdgesToCut(String source, Map<String, List<String>> graph) {
 
-        HashMap<String, Integer> edgeCounter = new HashMap<>();
+        HashMap<String, Integer> edgeRemoveStore = new HashMap<>();
         int initialLinkedNodes = depthFirstSearch(source, graph).size();
+        int nodesThresholdToMeet = (int) (initialLinkedNodes * THRESHOLD);
+        Map<String,List<String>> graphCopy = createDeepCopyOfGraph(graph);
 
-        for (String node: graph.get(source)) {
-            Map<String,List<String>> graphCopy = createDeepCopyOfGraph(graph);
-            disableConnection(source, node, graphCopy);
-            List<String> afterCutLinkedNodes = depthFirstSearch(source,graphCopy);
-            edgeCounter.put(source + node, calculateRemovedNodes(initialLinkedNodes, afterCutLinkedNodes));
+        List<Map.Entry<String, Integer>> sortedEntries = getConnectedNodes(source, graph, graphCopy);
+
+        int sumOfRemovesNodes = 0;
+        for (Map.Entry<String, Integer> target : sortedEntries) {
+            disableConnection(source, target.getKey(), graphCopy);
+            List<String> afterCutLinkedNodes = depthFirstSearch(source, graphCopy);
+            int removedNodes = calculateRemovedNodes(initialLinkedNodes, afterCutLinkedNodes);
+            initialLinkedNodes = initialLinkedNodes - removedNodes;
+
+            if (isViableCandidate(nodesThresholdToMeet, sumOfRemovesNodes, removedNodes, target)) {
+                sumOfRemovesNodes = sumOfRemovesNodes + removedNodes;
+                edgeRemoveStore.put(target.getKey(), removedNodes);
+            }
         }
 
-        return List.of(edgeCounter.entrySet()
-                .stream().max(Comparator.comparingInt(Map.Entry::getValue))
-                .map(e -> new Pair<>(e.getKey().substring(0,1),e.getKey().substring(1,2)))
-                .orElse(new Pair<>()));
+        return edgeRemoveStore.keySet().stream().map(integer -> new Pair<>(source, integer)).toList();
 
     }
 
-    private static void disableConnection(String source, String node, Map<String, List<String>> graphCopy) {
+    private List<Map.Entry<String, Integer>> getConnectedNodes(String source, Map<String, List<String>> graph, Map<String, List<String>> graphCopy) {
+        Map<String, Integer> nextInPathNodes = graphCopy
+                .get(source)
+                .stream()
+                .collect(Collectors.toMap(k -> k, n -> depthFirstSearch(n, graph).size()));
+        
+        List<Map.Entry<String, Integer>> sortedEntries = new ArrayList<>(nextInPathNodes.entrySet());
+        
+        sortedEntries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        return sortedEntries;
+    }
+
+    private boolean isViableCandidate(int nodesThresholdToMet, int removedNodesSum, int removedNodes, Map.Entry<String, Integer> current) {
+        if(removedNodesSum > nodesThresholdToMet) {
+            return false;
+        }
+        if(removedNodes == 0) {
+            return false;
+        }
+        return current.getValue() != 0;
+    }
+
+    private void disableConnection(String source, String node, Map<String, List<String>> graphCopy) {
         graphCopy.get(source).remove(node);
     }
 
-    private static Map<String, List<String>> createDeepCopyOfGraph(Map<String, List<String>> graph) {
-        return graph.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, c -> new LinkedList<>(c.getValue())));
+    private Map<String, List<String>> createDeepCopyOfGraph(Map<String, List<String>> graph) {
+        return graph.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, c -> new LinkedList<>(c.getValue())));
     }
 
-    private static int calculateRemovedNodes(int initialLinkedNodes, List<String> afterCutLinkedNodes) {
+    private int calculateRemovedNodes(int initialLinkedNodes, List<String> afterCutLinkedNodes) {
         return initialLinkedNodes - afterCutLinkedNodes.size();
     }
 
